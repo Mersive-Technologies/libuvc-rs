@@ -4,7 +4,7 @@ use std::error::Error;
 use std::sync::{Arc, Mutex};
 
 use glium::Surface;
-use uvc::{Context, Frame};
+use uvc::{Context, Frame, AutoExposureMode};
 
 fn frame_to_raw_image(
     frame: &Frame,
@@ -58,6 +58,7 @@ fn main() {
     // let dev = list.next().expect("No device available");
 
     let devh = dev.open().expect("Could not open device");
+    devh.set_ae_mode(AutoExposureMode::Auto).expect("Failed to set exposure mode");
 
     let format = devh
         .get_preferred_format(|x, y| {
